@@ -1,0 +1,182 @@
+  <section>
+    <section>
+        <h2><span class="text-yellow">Automation.</span> Task runners. <span class="text-yellow">Webpack.</span></h2>
+        <img class="b-h" src="images/automation-meme.jpg" alt="">
+    </section>
+  </section>
+
+  <section>
+      <h2><span class="text-yellow">Task runners</span></h2>
+      <section>
+          <h3>Task runners are programs packed with plug-ins that can be customized to automate various small,
+              repetitive jobs required in front-end coding. </h3>
+      </section>
+      <section>
+          <h2><span class="text-yellow">Grunt:</span> Plug-ins for everything</h2>
+      </section>
+      <section>
+          <p>
+              Grunt is a timesaving JavaScript task runner that’s all about automation. Grunt automates tasks
+              like testing, compilation, and minification, and lets programmers build customized workflows with
+              JavaScript. It doesn’t use advanced concepts, so it’s easy to pick up and use.
+          </p>
+      </section>
+      <section>
+            <pre>
+              <code class="javascript" data-trim contenteditable>
+                 module.exports = function(grunt) {
+                      grunt.initConfig({
+                        jshint: {
+                          files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+                          options: {
+                            globals: {
+                              jQuery: true
+                            }
+                          }
+                        },
+                        watch: {
+                          files: ['&lt;%= jshint.files %&gt;'],
+                          tasks: ['jshint']
+                        }
+                      });
+
+                      grunt.loadNpmTasks('grunt-contrib-jshint');
+                      grunt.loadNpmTasks('grunt-contrib-watch');
+
+                      grunt.registerTask('default', ['jshint']);
+
+                    };
+              </code>
+            </pre>
+      </section>
+      <section>
+          <h3>GRUNT BASICS</h3>
+          <ul>
+              <li>Grunt is best for small projects.</li>
+              <li>Favors configuration over code and gives developers more decision-making power</li>
+              <li>Grunt plug-ins can do more than one thing, processing multiple tasks. Gulp plug-ins do one thing only.</li>
+              <li>Develops build flows with JavaScript</li>
+              <li>Manages deployments</li>
+              <li>Uses JSON-like data configuration files</li>
+              <li>Developers do not have to be proficient in Node.js to use (vs. Gulp)</li>
+              <li>Sites that use Grunt include: Twitter, Adobe, and jQuery.</li>
+          </ul>
+      </section>
+      <section>
+          <h2><span class="text-yellow">Gulp.js:</span> A streaming build tool</h2>
+      </section>
+      <section>
+          <h3>
+              <span class="text-yellow">Gulp</span> is catching up fast to Grunt’s popularity. Founded on a totally
+              different logic than Grunt, Gulp is a streaming build system that automates and streamlines tasks using
+              <span class="text-yellow">Node.js’s</span> streams and modules.
+          </h3>
+      </section>
+      <section>
+          <p>
+              What is a streaming build system? It’s an asynchronous approach to tasks that involves processing files
+              independently, then piping them downstream to the next plug-in. There’s no waiting, just a steady flow
+              of processing tasks. By funneling parts of a project into “streams”—a Unix-and Node.js philosophy—a file
+              stream is created for related files of code. This modified stream is fed into another stream, where files
+              are concatenated—a task that links these related files together. In the next stream, concatenated files
+              are then minified, and you’re left with modified code that’s ready for a production server.
+          </p>
+      </section>
+      <section>
+        <pre>
+          <code class="javascript" data-trim contenteditable>
+            const { src, dest, parallel } = require('gulp');
+            const pug = require('gulp-pug');
+            const less = require('gulp-less');
+            const minifyCSS = require('gulp-csso');
+            const concat = require('gulp-concat');
+
+            function html() {
+              return src('client/templates/*.pug')
+                .pipe(pug())
+                .pipe(dest('build/html'))
+            }
+
+            function css() {
+              return src('client/templates/*.less')
+                .pipe(less())
+                .pipe(minifyCSS())
+                .pipe(dest('build/css'))
+            }
+
+            function js() {
+              return src('client/javascript/*.js', { sourcemaps: true })
+                .pipe(concat('app.min.js'))
+                .pipe(dest('build/js', { sourcemaps: true }))
+            }
+
+            exports.js = js;
+            exports.css = css;
+            exports.html = html;
+            exports.default = parallel(html, css, js);
+          </code>
+        </pre>
+      </section>
+      <section>
+          <h3><span class="text-yellow">GULP.JS</span> BASICS</h3>
+          <p>
+              <ul>
+                  <li>Cross-platform: supports Linux, OS X, and Windows operating systems.</li>
+                  <li>js-based: If your developer knows Node, Gulp is a natural match. </li>
+                  <li>The Gulp API is simple, elegant, and easy to use.</li>
+                  <li>Gulpfiles are simply JavaScript files. You can write/use existing Node modules without even requiring
+                      a Gulp plug-in.</li>
+                  <li>By using Node’s stream system, it’s faster than Grunt, which is I/O—meaning, files have to be opened
+                      and closed before and after execution.</li>
+              </ul>
+          </p>
+      </section>
+  </section>
+  <section>
+      <h2><span class="text-yellow">Web</span>pack</h2>
+      <section>
+          <h3>At its core, <span class="text-yellow">webpack</span> is a static module bundler for modern JavaScript applications.</h3>
+      </section>
+      <section>
+          <h3>
+              Since <span class="text-yellow">version 4.0.0</span>, webpack does not require a configuration file to bundle your project,
+              nevertheless it is incredibly configurable to better fit your needs.
+          </h3>
+      </section>
+      <section>
+          <h3 class="text-yellow">Loaders</h3>
+          <p>
+              On its own, Webpack only understands JavaScript. So if we need to compile SASS, TypeScript, e.c.t, we
+              need to use loaders. Loaders process files before they are imported into JavaScript. If you’ve come
+              from a task runner like Gulp, loaders are similar to tasks. We’ll take a look at a couple of popular
+              loaders.All loaders we want to use need to be installed as dev dependencies.
+          </p>
+      </section>
+      <section>
+          <img src="images/css-loader.png" alt="">
+      </section>
+      <section>
+          <h3><span class="text-yellow">Webpack</span> Development Server</h3>
+          The webpack-dev-server is a development server with live reload capabilities. To install run
+          <span class="text-yellow">‘npm i -D webpack-dev-server’</span>. Next we need to add some configuration to our webpack.config.js file:
+      </section>
+      <section>
+          <img src="images/dev-server.png" alt="">
+      </section>
+      <section>
+          <img src="images/package-json.png" alt="">
+      </section>
+  </section>
+  <section>
+      <h1 class="text-yellow">Questions?</h1>
+  </section>
+
+<!--  <pre>-->
+<!--    <code class="css" data-trim contenteditable>-->
+<!--        div, p // Selects all &lt;div&gt; elements and all &lt;p&gt; elements-->
+<!--        div p // Selects all &lt;p&gt; elements inside &lt;div&gt; elements-->
+<!--        div > p // Selects all &lt;p&gt; elements where the parent is a &lt;div&gt; element-->
+<!--        div + p // Selects all &lt;p&gt; elements that are placed immediately after &lt;div&gt; elements-->
+<!--        p ~ ul // Selects every &lt;&gt; element that are preceded by a &lt;p&gt; element-->
+<!--    </code>-->
+<!--  </pre>-->
